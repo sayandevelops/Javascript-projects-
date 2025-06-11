@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            height: 100vh;
+            margin: 0;
+        }
+        .slider {
+            width: 500px;
+            text-align: center;
+        }
+        .slider img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <img id="sliderImage" src="https://via.placeholder.com/500x300?text=Image+1" alt="Slider Image">
+        <div>
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+        </div>
+    </div>
+    <script>
+        const images = [
+            "https://via.placeholder.com/500x300?text=Image+1",
+            "https://via.placeholder.com/500x300?text=Image+2",
+            "https://via.placeholder.com/500x300?text=Image+3",
+            "https://via.placeholder.com/500x300?text=Image+4"
+        ];
+
+        let currentIndex = 0;
+        const imageElement = document.getElementById('sliderImage');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+
+        function updateImage(index) {
+            imageElement.src = images[index];
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage(currentIndex);
+        });
+    </script>
+</body>
+</html>

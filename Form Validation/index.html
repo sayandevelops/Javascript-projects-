@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <h2>Register</h2>
+        <input type="text" id="username" placeholder="Username">
+        <div class="error" id="usernameError"></div>
+        <input type="email" id="email" placeholder="Email">
+        <div class="error" id="emailError"></div>
+        <input type="password" id="password" placeholder="Password">
+        <div class="error" id="passwordError"></div>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        const form = document.getElementById('myForm');
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const usernameError = document.getElementById('usernameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let isValid = true;
+
+            // Username validation
+            if (username.value.trim() === '') {
+                usernameError.textContent = 'Username is required.';
+                isValid = false;
+            } else {
+                usernameError.textContent = '';
+            }
+
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value)) {
+                emailError.textContent = 'Enter a valid email.';
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+            }
+
+            // Password validation
+            if (password.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters.';
+                isValid = false;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+            }
+        });
+    </script>
+</body>
+</html>
