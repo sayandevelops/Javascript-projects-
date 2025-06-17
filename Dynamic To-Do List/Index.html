@@ -1,107 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #e9ecef;
-        }
-        .todo-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 15px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        li button {
-            background-color: #dc3545;
-            padding: 5px 10px;
-            border-radius: 3px;
-            border: none;
-            color: white;
-        }
-        .clear {
-            margin-top: 10px;
-            width: 100%;
-            background-color: #6c757d;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do App</title>
 </head>
 <body>
-    <div class="todo-container">
-        <h1>To-Do List</h1>
-        <input type="text" id="todoInput" placeholder="Enter a task">
-        <button id="addTodo">Add</button>
-        <ul id="todoList"></ul>
-        <button id="clearAll" class="clear">Clear All</button>
-    </div>
-    <script>
-        const todoInput = document.getElementById('todoInput');
-        const addTodoButton = document.getElementById('addTodo');
-        const todoList = document.getElementById('todoList');
-        const clearAllButton = document.getElementById('clearAll');
 
-        addTodoButton.addEventListener('click', () => {
-            const task = todoInput.value.trim();
-            if (task) {
-                const li = document.createElement('li');
-                li.innerHTML = `${task} <button onclick="removeTask(this)">Delete</button>`;
-                todoList.appendChild(li);
-                todoInput.value = '';
-            }
-        });
+<div class="todo-container">
+  <h1>Add your Task</h1>
+  <input type="text" id="todoInput" placeholder="Enter a task">
+  <button id="addTodo">Add</button>
+  <ul id="todoList"></ul>
+  <button id="clearAll" class="clear">Clear All</button>
+</div>
 
-        clearAllButton.addEventListener('click', () => {
-            todoList.innerHTML = '';
-        });
+<script>
+const todoInput = document.getElementById('todoInput');
+const addTodo = document.getElementById('addTodo');
+const todoList = document.getElementById('todoList');
+const clearAll = document.getElementById('clearAll');
 
-        function removeTask(button) {
-            button.parentElement.remove();
-        }
-    </script>
+// ✅ Get tasks from localStorage
+function getTasks() {
+  return JSON.parse(localStorage.getItem('todoTasks')) || [];
+}
+
+// ✅ Save tasks to localStorage
+function saveTasks(tasks) {
+  localStorage.setItem('todoTasks', JSON.stringify(tasks));
+}
+
+// ✅ Render all tasks on screen
+function renderTasks() {
+  todoList.innerHTML = '';
+  const tasks = getTasks();
+
+  tasks.forEach((task, index) => {
+    const li = document.createElement('li');
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+
+    checkbox.addEventListener('click', () => {
+      tasks[index].completed = checkbox.checked;
+      saveTasks(tasks);
+      li.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+    });
+
+    const span = document.createElement('span');
+    span.textContent = ' ' + task.text + ' ';
+
+    const button = document.createElement('button');
+    button.textContent = 'Delete';
+    button.addEventListener('click', () => {
+      tasks.splice(index, 1);
+      saveTasks(tasks);
+      renderTasks();
+    });
+
+    li.appendChild(checkbox);
+    li.appendChild(span);
+    li.appendChild(button);
+    li.style.textDecoration = task.completed ? 'line-through' : 'none';
+
+    todoList.appendChild(li);
+  });
+}
+
+// ✅ Add task on button click
+addTodo.addEventListener('click', () => {
+  const taskText = todoInput.value.trim();
+  if (taskText) {
+    const tasks = getTasks();
+    tasks.push({ text: taskText, completed: false });
+    saveTasks(tasks);
+    renderTasks();
+    todoInput.value = '';
+  }
+});
+
+// ✅ Clear all tasks
+clearAll.addEventListener('click', () => {
+  localStorage.removeItem('todoTasks');
+  todoList.innerHTML = '';
+});
+
+// ✅ Load saved tasks on page load
+renderTasks();
+</script>
+
 </body>
 </html>
