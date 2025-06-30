@@ -1,70 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Counter Application</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 15px;
-            margin: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background-color: white;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Counter: <span id="counter">0</span></h1>
-        <button id="increment">Increment</button>
-        <button id="decrement">Decrement</button>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="counter">
+            <h1 id="heading">Counter Application</h1>
+        <h2 id="count">0</h2>
+        <button id="increase">Increase</button>
+        <button id="Decrease">Decrease</button>
         <button id="reset">Reset</button>
     </div>
-    <script>
-        const counterDisplay = document.getElementById('counter');
-        const incrementButton = document.getElementById('increment');
-        const decrementButton = document.getElementById('decrement');
-        const resetButton = document.getElementById('reset');
-
-        let count = 0;
-
-        incrementButton.addEventListener('click', () => {
-            count++;
-            counterDisplay.textContent = count;
-        });
-
-        decrementButton.addEventListener('click', () => {
-            count--;
-            counterDisplay.textContent = count;
-        });
-
-        resetButton.addEventListener('click', () => {
-            count = 0;
-            counterDisplay.textContent = count;
-        });
-    </script>
-</body>
-</html>
+<script src="script.js"></script>
+    </body>
+    </html>
